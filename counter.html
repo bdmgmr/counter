@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  /* ===== RESET & BASE ===== */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .spotlight-counters {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #0a0a1a 0%, #0d1b2a 50%, #0a0a1a 100%);
+    border-radius: 16px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .spotlight-counters h2 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .spotlight-counters .subtitle {
+    text-align: center;
+    color: #8899aa;
+    font-size: 13px;
+    margin-bottom: 36px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== GRID ===== */
+  .counter-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .counter-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .counter-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ===== CARD ===== */
+  .counter-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 28px 20px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+  }
+
+  .counter-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  }
+
+  /* Glow bar at top of each card */
+  .counter-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 14px 14px 0 0;
+  }
+
+  /* Subtle radial glow behind number */
+  .counter-card::after {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* ===== ICON ===== */
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: block;
+    filter: drop-shadow(0 0 6px var(--accent));
+  }
+
+  /* ===== NUMBER ===== */
+  .counter-number {
+    font-size: 54px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+    position: relative;
+    z-index: 1;
+  }
+
+  .counter-number .plus {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    vertical-align: super;
+  }
+
+  /* ===== LABEL ===== */
+  .card-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: #7a8fa0;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== TOTAL ROW ===== */
+  .total-bar {
+    margin-top: 28px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .total-bar .total-label {
+    font-size: 14px;
+    color: #8899aa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  .total-bar .total-number {
+    font-size: 42px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .total-bar .total-sub {
+    font-size: 12px;
+    color: #556677;
+  }
+
+  /* ===== UPDATED TAG ===== */
+  .updated-tag {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 11px;
+    color: #445566;
+    letter-spacing: 0.5px;
+  }
+  .updated-tag span {
+    color: #00d4ff;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="spotlight-counters">
+  <h2>Content distribution by category</h2>
+  <p class="subtitle">Curated AI knowledge — updated every Monday</p>
+
+  <div class="counter-grid">
+
+    <!-- CARD 1: FOUNDATIONS -->
+    <div class="counter-card" style="--accent:#00d4ff; --glow:rgba(0,212,255,0.15);">
+      <span class="card-icon">🧱</span>
+      <div class="counter-number" data-target="24"><span class="num">0</span><span class="plus">+</span></div>
+      <div class="card-label">Foundation</div>
+      <div class="card-desc">Intro · Roadmap · Terminology</div>
+    </div>
+
+    <!-- CARD 2: ENGINEERING -->
+    <div class="counter-card" style="--accent:#7b2ff7; --glow:rgba(123,47,247,0.15);">
+      <span class="card-icon">⚙️</span>
+      <div class="counter-number" data-target="31"><span class="num">0</span><span class="plus">+</span></div>
+      <div class="card-label">Engineering</div>
+      <div class="card-desc">LLMs · RAG · System Design</div>
+    </div>
+
+    <!-- CARD 3: TOOLS & INTERACTIONS -->
+    <div class="counter-card" style="--accent:#00e5a0; --glow:rgba(0,229,160,0.15);">
+      <span class="card-icon">🛠️</span>
+      <div class="counter-number" data-target="28"><span class="num">0</span><span class="plus">+</span></div>
+      <div class="card-label">Tools & Interactions</div>
+      <div class="card-desc">Prompting · GenAI · Libraries</div>
+    </div>
+
+    <!-- CARD 4: USE CASES -->
+    <div class="counter-card" style="--accent:#ff6b35; --glow:rgba(255,107,53,0.15);">
+      <span class="card-icon">✈️</span>
+      <div class="counter-number" data-target="19"><span class="num">0</span><span class="plus">+</span></div>
+      <div class="card-label">Use Cases</div>
+      <div class="card-desc">Aviation · Energy · Sports</div>
+    </div>
+
+    <!-- CARD 5: GOVERNANCE -->
+    <div class="counter-card" style="--accent:#ffd700; --glow:rgba(255,215,0,0.15);">
+      <span class="card-icon">🛡️</span>
+      <div class="counter-number" data-target="22"><span class="num">0</span><span class="plus">+</span></div>
+      <div class="card-label">Governance</div>
+      <div class="card-desc">Responsible AI · Policy · Risk</div>
+    </div>
+
+    <!-- CARD 6: STRATEGY & CHANGE -->
+    <div class="counter-card" style="--accent:#ff4fa3; --glow:rgba(255,79,163,0.15);">
+      <span class="card-icon">🚀</span>
+      <div class="counter-number" data-target="17"><span class="num">0</span><span class="plus">+</span></div>
+      <div class="card-label">Strategy & Change</div>
+      <div class="card-desc">Leadership · AI Capability Building</div>
+    </div>
+
+  </div>
+
+  <!-- TOTAL BAR -->
+</div>
+
+<script>
+  // ============================================================
+  // ✏️  UPDATE THESE NUMBERS EVERY MONDAY
+  // ============================================================
+  const categoryCounts = {
+    foundations:       03,
+    engineering:       03,
+    toolsInteractions: 04,
+    useCases:          02,
+    governance:        03,
+    strategyChange:    02
+  };
+  // ============================================================
+
+  // Auto-calculate grand total
+  const grandTotal = Object.values(categoryCounts).reduce((a, b) => a + b, 0);
+
+  // Assign targets from the object (in order of cards)
+  const targets = Object.values(categoryCounts);
+  document.querySelectorAll('.counter-card').forEach((card, i) => {
+    card.setAttribute('data-target', targets[i]);
+  });
+
+  // ---- Animated Counter Function ----
+  function animateCounter(element, target, duration = 1800) {
+    const numSpan = element.querySelector('.num');
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Ease-out cubic for smooth deceleration
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * target);
+
+      numSpan.textContent = current;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        numSpan.textContent = target;
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  // ---- Grand Total Counter ----
+  function animateTotal(target, duration = 2200) {
+    const el = document.getElementById('grand-total');
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target;
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  // ---- Intersection Observer (trigger on scroll-into-view) ----
+  const cards = document.querySelectorAll('.counter-card');
+  let animated = false;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !animated) {
+        animated = true;
+        cards.forEach(card => {
+          const target = parseInt(card.getAttribute('data-target'));
+          // Stagger each card by 150ms
+          const idx = [...cards].indexOf(card);
+          setTimeout(() => animateCounter(card, target), idx * 150);
+        });
+        // Grand total starts slightly after first card
+        setTimeout(() => animateTotal(grandTotal), 300);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  cards.forEach(card => observer.observe(card));
+
+  // ---- Set last-updated date ----
+  const today = new Date();
+  // Find last Monday
+  const day = today.getDay(); // 0=Sun, 1=Mon...
+  const diffToMonday = (day === 0) ? -6 : 1 - day;
+  const lastMonday = new Date(today);
+  lastMonday.setDate(today.getDate() + diffToMonday);
+  const options = { day: 'numeric', month: 'long', year: 'numeric' };
+  document.getElementById('last-updated').textContent =
+    lastMonday.toLocaleDateString('en-IN', options);
+</script>
+
+</body>
+</html>
